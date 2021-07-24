@@ -10,6 +10,13 @@ public class Blackjack {
         dealer = new BlackjackHand();
         user = new BlackjackHand();
 
+        deck.shuffle();
+        dealer.addCard( deck.dealCard() );
+        dealer.addCard( deck.dealCard() );
+        user.addCard( deck.dealCard() );
+        user.addCard( deck.dealCard() );
+
+
         return true;
     }
     public static void main(String[] args){
