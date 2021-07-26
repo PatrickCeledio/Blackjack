@@ -34,7 +34,7 @@ public class Hand {
     }
 
     public Card getCard(int position) {
-        if (position >= 0 && position< hand.size() )
+        if (position >= 0 && position < hand.size() )
             return (Card)hand.elementAt(position);
         else
             return null;

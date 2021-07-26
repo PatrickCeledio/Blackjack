@@ -6,8 +6,8 @@ public class Deck {
     public Deck(){ // Create a new unshuffled deck of cards
         deck = new Card[52];
         int cardCount = 0;
-        for (int suit = 0; suit <= 3; suit++ ){
-            for (int value = 1; value <=13; value++){
+        for (int suit = 0; suit <= 3; suit++){
+            for (int value = 1; value <= 13; value++){
                 deck[cardCount] = new Card(value, suit);
                 cardCount++;
             }
@@ -26,7 +26,7 @@ public class Deck {
     }
 
     public int cardsLeft() {
-        return 52 - cardsLeft();
+        return 52 - cardsUsed;
     }
 
     public Card dealCard() {

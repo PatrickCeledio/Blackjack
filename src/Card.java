@@ -26,7 +26,6 @@ public class Card {
             case DIAMONDS: return "Diamonds";
             case CLUBS: return "Clubs";
             default: return "Missingno";
-
         }
     }
 
