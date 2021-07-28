@@ -3,12 +3,12 @@ public class Card {
     public final static int SPADES = 0, HEARTS = 1, DIAMONDS = 2, CLUBS = 3;
     public final static int ACE = 1, JACK = 11, QUEEN = 12, KING = 13;
 
-    private final int suit;
-    private final int value;
+    private final int suit; // Values for the 4 suits
+    private final int value; // Values for 1 - 11 cards
 
-    public Card(int theSuit, int theValue){
-        suit = theSuit;
+    public Card(int theValue, int theSuit){
         value = theValue;
+        suit = theSuit;
     }
 
     public int getSuit() {
