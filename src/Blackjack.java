@@ -25,18 +25,18 @@ public class Blackjack {
         // If computer draws 21
         if (dealer.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
-                    " and the " + dealer.getCard(1));
+                    " and the " + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue());
             System.out.println("User has the " + user.getCard(0) +
-                    " and the " + dealer.getCard(1) + "\n");
+                    " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("Computer has Blackjack-- Dealer wins.");
             return false;
         }
 
         if (user.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
-                    " and the " + dealer.getCard(1) + "Total Points: " + dealer.getBlackjackValue());
+                    " and the " + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue());
             System.out.println("User has the " + user.getCard(0) +
-                    " and the " + dealer.getCard(1) + "\n" + "Total Points: " + dealer.getBlackjackValue());
+                    " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("User has Blackjack-- User wins.");
             return true;
         }
@@ -52,7 +52,7 @@ public class Blackjack {
                 System.out.println(" " + user.getCard(i));
             }
             System.out.println("\nYour total points right now is: " + user.getBlackjackValue());
-            System.out.println("\n****************************");
+            System.out.println("\n******************************");
             System.out.println("Computer is showing the " + dealer.getCard(0) + "\n");
 
             // Take in user input
@@ -79,36 +79,42 @@ public class Blackjack {
                 if (user.getBlackjackValue() > 21) {
                     System.out.println("\nOuch, you went over 21. User learns.");
                     System.out.println("Computer's other card was " + dealer.getCard(1));
-                    System.out.println("Computer's total points: " + user.getBlackjackValue());
+                    System.out.println("Computer's total points: " + dealer.getBlackjackValue());
                     return false;
                 }
             }
         } // end outer-while
 
         // Dealer AI for drawing
+        System.out.println("\n******************************");
         System.out.println("Computer chooses to stand. ");
-        System.out.println("Computer's cards are: \n" + dealer.getCard(0) + "\n" + dealer.getCard(1));
+        System.out.println("Computer's cards are: \n" + dealer.getCard(0) + "\nComputer shows second card: "
+                + dealer.getCard(1));
         while(dealer.getBlackjackValue() <= 16){
             Card newCard = deck.dealCard();
-            System.out.println("Computer chooses to hit. They get " + newCard);
+            System.out.println("Computer chooses to hit.\n...They get " + newCard);
             dealer.addCard(newCard);
             if (dealer.getBlackjackValue() > 21){
-                System.out.println("Computer dun goofed by going over 21. User wins. ");
+                System.out.println("Computer dun goofed by going over 21!!! User wins. ");
                 return true;
             }
         }
-        System.out.println("Computer's total is " + dealer.getBlackjackValue());
+        System.out.println("\n******************************");
+
 
         // If both user and computer gets 21 or less, we determine winner by comparing each other's hands
         if (dealer.getBlackjackValue() == user.getBlackjackValue()) {
             System.out.println("Computer wins on a tie. User learns. ");
+            return false;
         } else if (dealer.getBlackjackValue() > user.getBlackjackValue()) {
             System.out.println("Computer wins! Computer: " + dealer.getBlackjackValue() +
                     "\nUser: " + user.getBlackjackValue());
             return false;
         } else {
-            System.out.println("User wins! Computer: " + dealer.getBlackjackValue() +
+            System.out.println("\n******************************");
+            System.out.println("User wins! \nComputer: " + dealer.getBlackjackValue() +
                     "\nUser: " + user.getBlackjackValue());
+            System.out.println("\n******************************");
         }
         return true;
     }// end playBlackjack()

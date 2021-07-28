@@ -31,7 +31,7 @@ public class Card {
 
     public String getValueAsString(){
         switch (value){
-            case 1: return "Ace";
+            case 1: return "Ace (1/11)";
             case 2: return "2";
             case 3: return "3";
             case 4: return "4";
@@ -41,9 +41,9 @@ public class Card {
             case 8: return "8";
             case 9: return "9";
             case 10: return "10";
-            case 11: return "Joker";
-            case 12: return "Queen";
-            case 13: return "King";
+            case 11: return "Joker (10)";
+            case 12: return "Queen (10)";
+            case 13: return "King (10)";
             default: return "Pikachu";
         }
     }
