@@ -32,6 +32,7 @@ public class Blackjack {
             return false;
         }
 
+        // If user draws 21
         if (user.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
                     " and the " + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue());
@@ -87,15 +88,14 @@ public class Blackjack {
 
         // Dealer AI for drawing
         System.out.println("\n******************************");
-        System.out.println("Computer chooses to stand. ");
         System.out.println("Computer's cards are: \n" + dealer.getCard(0) + "\nComputer shows second card: "
                 + dealer.getCard(1));
         while(dealer.getBlackjackValue() <= 16){
             Card newCard = deck.dealCard();
-            System.out.println("Computer chooses to hit.\n...They get " + newCard);
+            System.out.println("Computer chooses to hit.\n...They draw " + newCard);
             dealer.addCard(newCard);
             if (dealer.getBlackjackValue() > 21){
-                System.out.println("Computer dun goofed by going over 21!!! User wins. ");
+                System.out.println("Computer dun goofed by going over 21!!! Computer busted! User wins. Humanity wins.");
                 return true;
             }
         }
