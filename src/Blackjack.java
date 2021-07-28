@@ -21,6 +21,8 @@ public class Blackjack {
         System.out.println();
 
         // Check for Blackjack
+
+        // If computer draws 21
         if (dealer.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
                     " and the " + dealer.getCard(1));
@@ -32,9 +34,9 @@ public class Blackjack {
 
         if (user.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
-                    " and the " + dealer.getCard(1));
+                    " and the " + dealer.getCard(1) + "Total Points: " + dealer.getBlackjackValue());
             System.out.println("User has the " + user.getCard(0) +
-                    " and the " + dealer.getCard(1) + "\n");
+                    " and the " + dealer.getCard(1) + "\n" + "Total Points: " + dealer.getBlackjackValue());
             System.out.println("User has Blackjack-- User wins.");
             return true;
         }
@@ -52,29 +54,35 @@ public class Blackjack {
             System.out.println("\nYour total points right now is: " + user.getBlackjackValue());
             System.out.println("\n****************************");
             System.out.println("Computer is showing the " + dealer.getCard(0) + "\n");
+
+            // Take in user input
             System.out.println("Enter 'H' to hit or 'S' to stand. ");
             Scanner sc = new Scanner(System.in);
-            String userChoice = sc.next(); // Captures user's response-- either H or S
+            char userChoice = sc.next().charAt(0); // Captures user's response by next char-- either H or S
+
             do{
-                if (userChoice != "H" || userChoice != "h" || userChoice != "S" || userChoice != "s")
+                if (userChoice != 'H' && userChoice != 'h' && userChoice != 'S' && userChoice != 's')
                     System.out.println("Please enter either 'H' or 'S': ");
-            } while (userChoice != "H" || userChoice != "S");
-                // If user hits, get card
-                // If user stands, loop ends
-                if (userChoice == "S" || userChoice == "s")
-                    break;
-                else {
-                    Card newCard = deck.dealCard();
-                    user.addCard(newCard);
-                    System.out.println("\nUser chooses to hit. ");
-                    System.out.println("Your card is " + newCard);
-                    System.out.println("User's total points are now " + user.getBlackjackValue());
-                    if (user.getBlackjackValue() > 21) {
-                        System.out.println("\nOuch, you went over 21. User learns.");
-                        System.out.println("Computer's other card was " + dealer.getCard(1));
-                        return false;
-                    }
+            } while (userChoice != 'H' && userChoice != 'S' && userChoice != 'h' && userChoice != 's');
+
+            // If user hits, get card
+            // If user stands, loop ends
+            if (userChoice == 'S' || userChoice == 's') // User stands
+                break;
+            else { // User hits
+                Card newCard = deck.dealCard();
+                user.addCard(newCard);
+                System.out.println("\nUser chooses to hit. ");
+                System.out.println("Your card is " + newCard);
+                System.out.println("User's total points are now " + user.getBlackjackValue());
+
+                if (user.getBlackjackValue() > 21) {
+                    System.out.println("\nOuch, you went over 21. User learns.");
+                    System.out.println("Computer's other card was " + dealer.getCard(1));
+                    System.out.println("Computer's total points: " + user.getBlackjackValue());
+                    return false;
                 }
+            }
         } // end outer-while
 
         // Dealer AI for drawing
