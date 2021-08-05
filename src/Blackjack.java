@@ -1,44 +1,53 @@
 import java.util.Scanner;
 public class Blackjack {
 
-    static boolean playBlackjack(){
+    static boolean playBlackjack(int bet){
         Deck deck; // Deck of cards
         BlackjackHand dealer; // Dealer's hand
         BlackjackHand user; // User's hand
+        int userBet = bet;
 
+        // Create objects for the deck, the dealer's hand, and the user's hand
         deck = new Deck();
         dealer = new BlackjackHand();
         user = new BlackjackHand();
 
-        // Shuffle deck, and then deal two cards to dealer and user
+        // Shuffle deck first
         deck.shuffle();
+        // Dealer draws two cards
         dealer.addCard( deck.dealCard() );
         dealer.addCard( deck.dealCard() );
+        // User draws two cards
         user.addCard( deck.dealCard() );
         user.addCard( deck.dealCard() );
 
+        // Create gaps in message out
         System.out.println();
         System.out.println();
 
-        // Check for Blackjack
+        // **** Code to check for Blackjack ***
 
-        // If computer draws 21
+        // If dealer draws a blackjack right away, prompt user, return false, user loses
         if (dealer.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
                     " and the " + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue());
             System.out.println("User has the " + user.getCard(0) +
                     " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("Computer has Blackjack-- Dealer wins.");
+            // Break out of the current game loop
             return false;
         }
 
         // If user draws 21
+
+        // If user draws a blackjack right away, prompt user, user wins
         if (user.getBlackjackValue() == 21) {
             System.out.println("Computer has the " + dealer.getCard(0) +
                     " and the " + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue());
             System.out.println("User has the " + user.getCard(0) +
                     " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("User has Blackjack-- User wins.");
+            //
             return true;
         }
 
@@ -49,32 +58,70 @@ public class Blackjack {
             // Display user's cards, allow them to hit or stand
             System.out.println("\n\n****************************");
             System.out.println("\nUser's cards are: ");
-            for (int i = 0; i < user.getCardCount(); i++){
+
+            // Display user's cards
+            for (int i = 0; i < user.getCardCount(); i++) {
                 System.out.println(" " + user.getCard(i));
             }
+
+            // Display user's point
             System.out.println("\nYour total points right now is: " + user.getBlackjackValue());
             System.out.println("\n******************************");
+
+            // Display dealer's first card
             System.out.println("Computer is showing the " + dealer.getCard(0) + "\n");
 
             // Take in user input
             System.out.println("Enter 'H' to hit or 'S' to stand. ");
             Scanner sc = new Scanner(System.in);
-            char userChoice = sc.next().charAt(0); // Captures user's response by next char-- either H or S
+            
+            // Captures user's response by next char-- either H or S
+            char userChoice = sc.next().charAt(0);
 
+            // Check for correct input from user, while user input is incorrect
+            // If correct, user goes into hit or stand loop
             do{
-                if (userChoice != 'H' && userChoice != 'h' && userChoice != 'S' && userChoice != 's')
+                if (userChoice != 'H' && userChoice != 'h' && userChoice != 'S' && userChoice != 's'
+                        && userChoice != 'D' && userChoice != 'd' )
                     System.out.println("Please enter either 'H' or 'S': ");
-            } while (userChoice != 'H' && userChoice != 'S' && userChoice != 'h' && userChoice != 's');
+            } while (userChoice != 'H' && userChoice != 'S' && userChoice != 'h' && userChoice != 's'
+                        && userChoice != 'D' && userChoice != 'd' );
 
             // If user hits, get card
             // If user stands, loop ends
             if (userChoice == 'S' || userChoice == 's') // User stands
                 break;
+            else if ( userChoice == 'D' || userChoice == 'd') { // User double-downs WIP
+
+                // Create a new card object from our deck
+                Card newCard = deck.dealCard();
+
+                // Add new card to user's hand
+                user.addCard(newCard);
+
+                // Double the bet
+                userBet += userBet;
+
+                System.out.println("\nUser chooses to double down! ");
+                System.out.println("User draws " + newCard);
+                System.out.println("User's total points are now " + user.getBlackjackValue());
+
+                if (user.getBlackjackValue() > 21) {
+                    System.out.println("\nOuch, you went over 21. User learns.");
+                    System.out.println("Computer's other card was " + dealer.getCard(1));
+                    System.out.println("Computer's total points: " + dealer.getBlackjackValue());
+                    return false;
+                }
+
+                // Break out of hit or stand loop
+                break;
+
+            }
             else { // User hits
                 Card newCard = deck.dealCard();
                 user.addCard(newCard);
                 System.out.println("\nUser chooses to hit. ");
-                System.out.println("Your card is " + newCard);
+                System.out.println("User draws " + newCard);
                 System.out.println("User's total points are now " + user.getBlackjackValue());
 
                 if (user.getBlackjackValue() > 21) {
@@ -92,9 +139,11 @@ public class Blackjack {
                 + dealer.getCard(1));
         while(dealer.getBlackjackValue() <= 16){
             Card newCard = deck.dealCard();
-            System.out.println("Computer chooses to hit.\n...They draw " + newCard);
+            System.out.println("\nComputer chooses to hit.\n...They draw " + newCard);
+            pressAnyButtonToContinue();
             dealer.addCard(newCard);
             if (dealer.getBlackjackValue() > 21){
+                pressAnyButtonToContinue();
                 System.out.println("Computer dun goofed by going over 21!!! Computer busted! User wins. Humanity wins.");
                 return true;
             }
@@ -148,7 +197,7 @@ public class Blackjack {
                     if (bet == 0)
                         break;
 
-                    userWins = playBlackjack();
+                    userWins = playBlackjack(bet);
                     if (userWins)
                         money += bet;
                     else
@@ -168,9 +217,20 @@ public class Blackjack {
                 menu();
             case 3:
                 System.out.println("Goodbye!");
+                // Code to texit the game
+                System.exit(0);
                 break;
 
         }//end Switch
+
+    }
+    
+    static void pressAnyButtonToContinue() {
+        System.out.println("Press enter to continue..\n");
+        try {
+            System.in.read();
+        }
+        catch (Exception e){}
 
     }
 
