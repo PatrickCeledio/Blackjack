@@ -47,7 +47,7 @@ public class Blackjack {
             System.out.println("User has the " + user.getCard(0) +
                     " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("User has Blackjack-- User wins.");
-            //
+            // Return back to betting prompt with money earned
             return true;
         }
 
@@ -213,11 +213,29 @@ public class Blackjack {
                 System.out.println("You leave with $" + money + "!");
                 menu();
             case 2:
-                System.out.println("Blackjack Rules:");
+                System.out.println("Blackjack Rules:\n");
+                System.out.println("**********************");
+                System.out.println("Basic Blackjack Rules:\n" +
+                        "**********************" +
+                        "\n" +
+                        "1. The goal of blackjack is to beat the dealer's hand without going over 21.\n" +
+                        "2. Face cards are worth 10. Aces are worth 1 or 11, whichever makes a better hand.\n" +
+                        "3. Each player starts with two cards, one of the dealer's cards is hidden until the end.\n" +
+                        "4. To 'Hit' is to ask for another card. To 'Stand' is to hold your total and end your turn.\n" +
+                        "5. If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.\n" +
+                        "6. If you are dealt 21 from the start (Ace & 10), you got a blackjack.\n" +
+                        "7. In this game, Blackjack means you will earn twice the money you bet. \n" +
+                        "8. Dealer will hit until their card's total 17 or higher.\n" +
+                        "9. Doubling is like a hit, only the bet is doubled and you only get one more card.\n" +
+                        "10. Split can be done when you have two of the same card - the pair is split into two hands.\n" +
+                        "11. Splitting also doubles the bet, because each new hand is worth the original bet.\n" +
+                        "12. You can only double/split on the first move, or first move of a hand created by a split.\n" +
+                        "13. You cannot play on two aces after they are split.\n" +
+                        "14. You can double on a hand resulting from a split, tripling or quadrupling you bet.\n");
                 menu();
             case 3:
                 System.out.println("Goodbye!");
-                // Code to texit the game
+                // Code to exit the game
                 System.exit(0);
                 break;
 
