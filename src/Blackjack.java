@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Blackjack {
 
-    static boolean playBlackjack(int bet){
+    static int playBlackjack(int bet){
         Deck deck; // Deck of cards
         BlackjackHand dealer; // Dealer's hand
         BlackjackHand user; // User's hand
@@ -35,7 +35,7 @@ public class Blackjack {
                     " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("Computer has Blackjack-- Dealer wins.");
             // Break out of the current game loop
-            return false;
+            return 1;
         }
 
         // If user draws 21
@@ -48,7 +48,7 @@ public class Blackjack {
                     " and the " + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("User has Blackjack-- User wins.");
             // Return back to betting prompt with money earned
-            return true;
+            return 2;
         }
 
         // Play Blackjack is neither user or CPU has Blackjack
@@ -82,8 +82,11 @@ public class Blackjack {
             // If correct, user goes into hit or stand loop
             do{
                 if (userChoice != 'H' && userChoice != 'h' && userChoice != 'S' && userChoice != 's'
-                        && userChoice != 'D' && userChoice != 'd' )
+                        && userChoice != 'D' && userChoice != 'd' ) {
                     System.out.println("Please enter either 'H' or 'S': ");
+                    userChoice = sc.next().charAt(0);
+                }
+
             } while (userChoice != 'H' && userChoice != 'S' && userChoice != 'h' && userChoice != 's'
                         && userChoice != 'D' && userChoice != 'd' );
 
@@ -110,7 +113,7 @@ public class Blackjack {
                     System.out.println("\nOuch, you went over 21. User learns.");
                     System.out.println("Computer's other card was " + dealer.getCard(1));
                     System.out.println("Computer's total points: " + dealer.getBlackjackValue());
-                    return false;
+                    return 1;
                 }
 
                 // Break out of hit or stand loop
@@ -128,24 +131,23 @@ public class Blackjack {
                     System.out.println("\nOuch, you went over 21. User learns.");
                     System.out.println("Computer's other card was " + dealer.getCard(1));
                     System.out.println("Computer's total points: " + dealer.getBlackjackValue());
-                    return false;
+                    return 1;
                 }
             }
         } // end outer-while
 
         // Dealer AI for drawing
         System.out.println("\n******************************");
-        System.out.println("Computer's cards are: \n" + dealer.getCard(0) + "\nComputer shows second card: "
+        System.out.println("Computer's cards are: \n" + dealer.getCard(0) +"\n\nComputer shows second card:\n"
                 + dealer.getCard(1));
         while(dealer.getBlackjackValue() <= 16){
             Card newCard = deck.dealCard();
             System.out.println("\nComputer chooses to hit.\n...They draw " + newCard);
-            pressAnyButtonToContinue();
             dealer.addCard(newCard);
             if (dealer.getBlackjackValue() > 21){
                 pressAnyButtonToContinue();
                 System.out.println("Computer dun goofed by going over 21!!! Computer busted! User wins. Humanity wins.");
-                return true;
+                return 2;
             }
         }
         System.out.println("\n******************************");
@@ -153,28 +155,28 @@ public class Blackjack {
 
         // If both user and computer gets 21 or less, we determine winner by comparing each other's hands
         if (dealer.getBlackjackValue() == user.getBlackjackValue()) {
-            System.out.println("Computer wins on a tie. User learns. ");
-            return false;
+            System.out.println("Computer wins on a tie. Computer laughs at you. ");
+            return 1;
         } else if (dealer.getBlackjackValue() > user.getBlackjackValue()) {
             System.out.println("Computer wins! Computer: " + dealer.getBlackjackValue() +
                     "\nUser: " + user.getBlackjackValue());
-            return false;
+            return 1;
         } else {
             System.out.println("\n******************************");
             System.out.println("User wins! \nComputer: " + dealer.getBlackjackValue() +
                     "\nUser: " + user.getBlackjackValue());
             System.out.println("\n******************************");
+            return 2;
         }
-        return true;
     }// end playBlackjack()
 
     static void menu(){
         Scanner sc = new Scanner(System.in);
         int money;
         int bet;
-        boolean userWins;
+        int userWins;
 
-        System.out.println("\nWelcome to Blackjack. \n1. Start Game\n2. Rules\n3. Exit");
+        System.out.println("Welcome to Blackjack. \n1. Start Game\n2. Rules\n3. Exit");
         int menuChoice=sc.nextInt(); // Captures user input at menu state
 
         // Start with user having $100
@@ -183,8 +185,9 @@ public class Blackjack {
         switch(menuChoice){
             case 1:
                 while(true){
-                    System.out.println("You currently have " + money + " dollars.");
                     do {
+                        clearTerminal();
+                        System.out.println("You currently have " + money + " dollars.");
                         System.out.println("How many dollars would you like to bet? (Entering 0 will kick you out. )");
                         System.out.print("$");
                         bet = sc.nextInt();
@@ -197,20 +200,31 @@ public class Blackjack {
                     if (bet == 0)
                         break;
 
+                    // userWins can be true or false depending on what playBlackjack() returns
                     userWins = playBlackjack(bet);
-                    if (userWins)
-                        money += bet;
-                    else
-                        money -= bet;
+                    System.out.println("\nuserWins current is: " + userWins);
+                    // if userWins is true
+                    switch (userWins){
+                        // if user wins
+                        case 1:
+                            money -= bet;
+                            break;
+
+                        // if dealer wins
+                        case 2:
+                            money += bet;
+                            break;
+                    }
+
 
                     System.out.println("");
                     if (money == 0){
-                        System.out.printf("Looks like you ran out of money! Learn how to pull out next time. ");
+                        System.out.printf("Looks like you lost all of your virtual money! Uh-oh. ");
                         break;
                     }
                 }
                 System.out.println("");
-                System.out.println("You leave with $" + money + "!");
+                System.out.println("You leave with $" + money + "!\n");
                 menu();
             case 2:
                 System.out.println("Blackjack Rules:\n");
@@ -232,6 +246,7 @@ public class Blackjack {
                         "12. You can only double/split on the first move, or first move of a hand created by a split.\n" +
                         "13. You cannot play on two aces after they are split.\n" +
                         "14. You can double on a hand resulting from a split, tripling or quadrupling you bet.\n");
+                pressAnyButtonToContinue();
                 menu();
             case 3:
                 System.out.println("Goodbye!");
@@ -244,12 +259,35 @@ public class Blackjack {
     }
     
     static void pressAnyButtonToContinue() {
-        System.out.println("Press enter to continue..\n");
+        System.out.println("Press enter to continue..");
         try {
             System.in.read();
         }
         catch (Exception e){}
 
+    }
+
+    public final static void clearTerminal()
+    {
+        try
+        {
+            // We store the kind of OS user is using as a String
+            final String os = System.getProperty("os.name");
+            // If it they're using Windows, then use cls
+            if (os.contains("Windows"))
+            {
+                Runtime.getRuntime().exec("cls");
+                System.out.println("Windows");
+            }
+            else
+            {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args){
