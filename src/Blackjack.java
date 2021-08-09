@@ -275,12 +275,12 @@ public class Blackjack {
             System.out.println("Computer and user tie in value. User pushes. ");
             return 3;
         } else if (dealer.getBlackjackValue() > user.getBlackjackValue()) {
-            System.out.println("Computer has: \n" + dealer.getCard(0) +
+            System.out.println("\nComputer has: \n" + dealer.getCard(0) +
                     "\n" + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue() + "\n");
             System.out.println("User has: \n" + user.getCard(0) +
-                    "\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue() + "\n");
+                    "\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
             System.out.println("\n************************************");
-            System.out.println("Dealer has Blackjack-- Dealer wins!");
+            System.out.println("Computer has a higher value-- Dealer wins!");
             System.out.println("************************************");
             if (doubleDown == true) {
                 return 5;
@@ -414,7 +414,7 @@ public class Blackjack {
     }
 
     static void pressAnyButtonToContinue() {
-        System.out.println("Press enter to continue..");
+        System.out.print("Press enter to continue..");
         try {
             System.in.read();
         } catch (Exception e) {
