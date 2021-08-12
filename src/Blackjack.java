@@ -33,9 +33,9 @@ public class Blackjack {
         if (dealer.getBlackjackValue() == 21) {
             pressAnyButtonToContinue();
             System.out.println("Computer has: \n" + dealer.getCard(0) +
-                    "\n" + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue());
+                    "\n" + dealer.getCard(1) + "Computer Points: " + dealer.getBlackjackValue());
             System.out.println("User has: \n" + user.getCard(0) +
-                    "\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
+                    "\n" + user.getCard(1) + "User Points: " + user.getBlackjackValue());
             System.out.println("\n*************************************");
             System.out.println("Computer has Blackjack-- Dealer wins.");
             System.out.println("*************************************");
@@ -112,10 +112,21 @@ public class Blackjack {
                     System.out.println("User's total points are now " + user.getBlackjackValue());
 
                     if (user.getBlackjackValue() > 21) {
-                        System.out.println("Computer has: \n" + dealer.getCard(0) +
-                                "\n" + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue() + "\n");
-                        System.out.println("User has: \n" + user.getCard(0) +
-                                "\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue() + "\n");
+                        // For-loop in case dealer draws more cards
+                        System.out.println("\nComputer has: ");
+                        for (int i=0; i<dealer.getCardCount();i++){
+                            System.out.println(dealer.getCard(i));
+                        }
+                        System.out.println("\nComputer Points: " + dealer.getBlackjackValue());
+
+                        // Additional for-loop
+                        //System.out.println("User has: \n" + user.getCard(0) +
+                        //"\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
+                        System.out.println("\nUser has: ");
+                        for (int i=0; i<user.getCardCount();i++){
+                            System.out.println(user.getCard(i));
+                        }
+                        System.out.println("\nUser Points: " + user.getBlackjackValue());
                         System.out.println("\n************************************");
                         System.out.println("Ouch, you went over 21. User learns.");
                         System.out.println("************************************");
@@ -200,6 +211,13 @@ public class Blackjack {
 
                         System.out.println("\nUser chooses to double down! ");
                         System.out.println("User draws " + newCard);
+
+                        // If user doubles-down and gets Blackjack
+                        if (user.getBlackjackValue() == 21){
+                            System.out.println("***Blackjack!***\nUser's total points are now "
+                                    + user.getBlackjackValue());
+                            return 4;
+                        }
                         System.out.println("User's total points are now " + user.getBlackjackValue());
                         hitCounter++;
                         pressAnyButtonToContinue();
@@ -247,6 +265,8 @@ public class Blackjack {
         System.out.println("\n******************************");
         System.out.println("Computer's cards are: \n" + dealer.getCard(0) + "\n\nComputer shows second card:\n"
                 + dealer.getCard(1));
+
+        // Logic for computer to draw more cards when hand value is under 17
         while (dealer.getBlackjackValue() <= 16) {
             Card newCard = deck.dealCard();
             System.out.println("\nComputer chooses to hit.\n...They draw " + newCard);
@@ -275,10 +295,25 @@ public class Blackjack {
             System.out.println("Computer and user tie in value. User pushes. ");
             return 3;
         } else if (dealer.getBlackjackValue() > user.getBlackjackValue()) {
-            System.out.println("\nComputer has: \n" + dealer.getCard(0) +
-                    "\n" + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue() + "\n");
-            System.out.println("User has: \n" + user.getCard(0) +
-                    "\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
+            //System.out.println("\nComputer has: \n" + dealer.getCard(0) +
+                    //"\n" + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue() + "\n");
+
+            // For-loop in case dealer draws more cards
+            System.out.println("\nComputer has: ");
+            for (int i=0; i<dealer.getCardCount();i++){
+                System.out.println(dealer.getCard(i));
+            }
+            System.out.println("Computer Points: " + dealer.getBlackjackValue());
+
+            // Additional for-loop
+            //System.out.println("User has: \n" + user.getCard(0) +
+                    //"\n" + user.getCard(1) + "\nUser Points: " + user.getBlackjackValue());
+            System.out.println("\nUser has: ");
+            for (int i=0; i<user.getCardCount();i++){
+                System.out.println(user.getCard(i));
+            }
+            System.out.println("User Points: " + user.getBlackjackValue());
+
             System.out.println("\n************************************");
             System.out.println("Computer has a higher value-- Dealer wins!");
             System.out.println("************************************");
@@ -305,8 +340,8 @@ public class Blackjack {
 
         int bet = 0;
         int userWins;
-
-        System.out.println("Welcome to Blackjack. \n1. Start Game\n2. Rules\n3. Exit");
+        System.out.println("*********************\nWelcome to Blackjack.\n*********************\n" +
+                "1. Start Game\n2. Rules\n3. Exit");
         int menuChoice = sc.nextInt(); // Captures user input at menu state
 
         // Start with user having $100
@@ -365,7 +400,7 @@ public class Blackjack {
                             break;
                         // if user doubles down and loses
                         case 5:
-                            System.out.println("User doubles down and loses this round!");
+                            System.out.println("User doubles down and loses this round!\n***************************************");
                             money -= bet * 2;
                             break;
 
