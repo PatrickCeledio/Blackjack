@@ -260,7 +260,6 @@ public class Blackjack {
             } // end outer-while
         }
 
-
         // Dealer AI for drawing
         System.out.println("\n******************************");
         System.out.println("Computer's cards are: \n" + dealer.getCard(0) + "\n\nComputer shows second card:\n"
@@ -406,7 +405,6 @@ public class Blackjack {
 
                     }
 
-
                     System.out.println("");
                     if (money == 0) {
                         System.out.printf("Looks like you lost all of your virtual money! Uh-oh. ");
@@ -453,8 +451,8 @@ public class Blackjack {
         try {
             System.in.read();
         } catch (Exception e) {
+            System.out.println("Please press enter to continue.");
         }
-
     }
 
     public final static void clearTerminal() {
