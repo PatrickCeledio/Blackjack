@@ -56,7 +56,7 @@ public class Blackjack {
             System.out.println("User has Blackjack-- User wins.");
             System.out.println("*************************************");
             // Return back to betting prompt with money earned
-            return 2;
+            return 7;
         }
 
         // Play Blackjack if neither user or CPU has Blackjack
@@ -216,7 +216,7 @@ public class Blackjack {
                         if (user.getBlackjackValue() == 21){
                             System.out.println("***Blackjack!***\nUser's total points are now "
                                     + user.getBlackjackValue());
-                            return 4;
+                            return 6;
                         }
                         System.out.println("User's total points are now " + user.getBlackjackValue());
                         hitCounter++;
@@ -243,6 +243,7 @@ public class Blackjack {
                     System.out.println("User draws " + newCard);
                     System.out.println("User's total points are now " + user.getBlackjackValue());
 
+                    // If user gets over 21
                     if (user.getBlackjackValue() > 21) {
                         System.out.println("Computer has: \n" + dealer.getCard(0) +
                                 "\n" + dealer.getCard(1) + "\nComputer Points: " + dealer.getBlackjackValue() + "\n");
@@ -383,7 +384,7 @@ public class Blackjack {
                             money -= bet;
                             break;
 
-                        // if dealer wins
+                        // if user wins
                         case 2:
                             money += bet;
                             break;
@@ -402,7 +403,16 @@ public class Blackjack {
                             System.out.println("User doubles down and loses this round!\n***************************************");
                             money -= bet * 2;
                             break;
-
+                        // If user doubles-down and draws Blackjack
+                        case 6:
+                            System.out.println("User doubles down and draws 21! MEGA Blackjack!");
+                            money += (bet * 2) + (bet * 1.5);
+                            break;
+                        // If user draws Blackjack
+                        case 7:
+                            System.out.println("User draws 21! Blackjack!");
+                            money += bet + (bet * 1.5);
+                            break;
                     }
 
                     System.out.println("");
